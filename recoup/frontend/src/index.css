@@ -1,0 +1,160 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   index.css — Global design system · Dark fintech theme with warm gold accents
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds — deep dark with warm undertones */
+  --bg-base: #08090b;
+  --bg-surface: #111318;
+  --bg-elevated: #181b22;
+  --bg-card: #15171e;
+  --bg-hover: #1d2029;
+  --bg-input: #0e1014;
+
+  /* Borders */
+  --border: #1f222d;
+  --border-light: #282c3a;
+  --border-accent: rgba(200, 185, 100, 0.15);
+
+  /* Text */
+  --text-primary: #f0f0f2;
+  --text-secondary: #858a9c;
+  --text-muted: #4e5264;
+  --text-inverse: #0c0d0f;
+
+  /* Accent — warm gold / olive / cream (from reference) */
+  --accent-gold: #c8b560;
+  --accent-cream: #e8dfa0;
+  --accent-light: #f5f0d0;
+  --accent-olive: #8a8840;
+  --accent-glow: rgba(200, 181, 96, 0.15);
+  --accent-glow-strong: rgba(200, 181, 96, 0.25);
+
+  /* Semantic */
+  --success: #34d399;
+  --success-muted: rgba(52, 211, 153, 0.12);
+  --warning: #fbbf24;
+  --warning-muted: rgba(251, 191, 36, 0.12);
+  --danger: #f87171;
+  --danger-muted: rgba(248, 113, 113, 0.12);
+  --info: #818cf8;
+  --info-muted: rgba(129, 140, 248, 0.12);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.55);
+  --shadow-gold: 0 4px 24px rgba(200, 181, 96, 0.08);
+
+  /* Motion */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 220ms var(--ease);
+  --transition-slow: 400ms var(--ease);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--accent-cream);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--accent-light);
+}
+
+code, pre {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Utility classes ───────────────────────────────────────────────────────── */
+.muted-text { color: var(--text-muted); font-size: 13px; }
+.secondary-text { color: var(--text-secondary); }
+.error-text  { color: var(--danger); }
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-cream) 50%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-inverse);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ── Glass card base ───────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-gold);
+}
+
+/* ── Accent card (gold gradient background, like the balance card in ref) ── */
+.card-accent {
+  background: linear-gradient(135deg, rgba(200, 181, 96, 0.12) 0%, rgba(232, 223, 160, 0.08) 100%);
+  border: 1px solid rgba(200, 181, 96, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, rgba(200, 181, 96, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}

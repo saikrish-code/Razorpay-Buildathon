@@ -3,11 +3,11 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: flex-end;
-  animation: fadeIn 200ms ease;
+  animation: fadeIn 200ms var(--ease);
 }
 
 @keyframes fadeIn {
@@ -23,8 +23,7 @@
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 0;
-  animation: slideIn 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideIn 280ms var(--ease);
   box-shadow: var(--shadow-lg);
 }
 
@@ -48,27 +47,33 @@
 .modal-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
 }
 
 .modal-payment-id {
   font-size: 11px;
   color: var(--text-muted);
+  background: var(--bg-elevated);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 }
 
 .modal-close-btn {
-  background: none;
-  border: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .modal-close-btn:hover {
   background: var(--bg-hover);
+  border-color: var(--border-light);
   color: var(--text-primary);
 }
 
@@ -81,11 +86,11 @@
   border-bottom: none;
 }
 
-/* Detail grid */
+/* ── Detail grid ─────────────────────────────────────────────────────────── */
 .detail-grid {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 10px 16px;
+  gap: 12px 20px;
   align-items: baseline;
 }
 
@@ -104,21 +109,21 @@
   word-break: break-word;
 }
 
-/* Section headings */
+/* ── Section headings ────────────────────────────────────────────────────── */
 .section-title {
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-/* Audit timeline */
+/* ── Audit timeline ──────────────────────────────────────────────────────── */
 .audit-timeline {
   list-style: none;
   position: relative;
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .audit-timeline::before {
@@ -133,24 +138,30 @@
 
 .audit-entry {
   position: relative;
-  padding-bottom: 20px;
-  padding-left: 16px;
+  padding-bottom: 22px;
+  padding-left: 18px;
+}
+
+.audit-entry:last-child {
+  padding-bottom: 0;
 }
 
 .audit-dot {
   position: absolute;
   left: -8px;
   top: 5px;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cream));
   border: 2px solid var(--bg-surface);
+  box-shadow: 0 0 0 2px var(--border);
 }
 
 .audit-action {
   font-weight: 600;
   font-size: 13px;
+  color: var(--text-primary);
 }
 
 .audit-actor {
@@ -162,6 +173,7 @@
   color: var(--text-secondary);
   font-size: 13px;
   margin-top: 4px;
+  line-height: 1.5;
 }
 
 .audit-time {

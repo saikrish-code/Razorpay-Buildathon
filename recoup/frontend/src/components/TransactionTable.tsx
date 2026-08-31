@@ -13,10 +13,10 @@ interface Props {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "#f59e0b",
-  success: "#10b981",
-  failed: "#ef4444",
-  refunded: "#6366f1",
+  pending: "#c8b560",
+  success: "#34d399",
+  failed: "#f87171",
+  refunded: "#818cf8",
 };
 
 export default function TransactionTable({ transactions, onSelect, loading }: Props) {

@@ -1,9 +1,9 @@
 /* ── TransactionTable ─────────────────────────────────────────────────────── */
 .table-wrapper {
   overflow-x: auto;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: var(--bg-surface);
+  background: var(--bg-card);
 }
 
 .tx-table {
@@ -16,7 +16,7 @@
 }
 
 .tx-table th {
-  padding: 12px 16px;
+  padding: 14px 20px;
   text-align: left;
   font-size: 11px;
   font-weight: 600;
@@ -36,14 +36,15 @@
 }
 
 .tx-row:focus-visible {
-  outline: 2px solid var(--accent-primary);
+  outline: 2px solid var(--accent-gold);
   outline-offset: -2px;
 }
 
 .tx-table td {
-  padding: 14px 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
+  font-size: 14px;
 }
 
 .tx-table tbody tr:last-child td {
@@ -54,13 +55,15 @@
   font-size: 12px;
   color: var(--text-secondary);
   background: var(--bg-elevated);
-  padding: 2px 6px;
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 }
 
 .amount-cell {
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
 }
 
 .date-cell {
@@ -70,29 +73,34 @@
 
 .status-pill {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 99px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
   font-size: 11px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-inverse);
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
-/* Skeleton loading */
+/* ── Skeleton loading ────────────────────────────────────────────────────── */
 .table-placeholder {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
-  background: var(--bg-surface);
+  padding: 20px;
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
 }
 
 .skeleton-row {
-  height: 44px;
-  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-hover) 50%, var(--bg-elevated) 75%);
+  height: 48px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 75%
+  );
   background-size: 200% 100%;
   border-radius: var(--radius-sm);
   animation: shimmer 1.5s infinite;
@@ -103,18 +111,21 @@
   100% { background-position: -200% 0; }
 }
 
-/* Empty state */
+/* ── Empty state ─────────────────────────────────────────────────────────── */
 .table-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 64px 24px;
-  background: var(--bg-surface);
+  gap: 12px;
+  padding: 72px 24px;
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   text-align: center;
 }
 
-.empty-icon { font-size: 40px; }
+.empty-icon {
+  font-size: 48px;
+  opacity: 0.7;
+}
