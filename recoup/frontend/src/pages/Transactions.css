@@ -1,0 +1,28 @@
+/* ── Transactions page ───────────────────────────────────────────────────── */
+.transactions-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.error-banner {
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--danger);
+  font-size: 13px;
+}

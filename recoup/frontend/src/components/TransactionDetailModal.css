@@ -1,0 +1,172 @@
+/* ── TransactionDetailModal ───────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-panel {
+  width: min(480px, 100vw);
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  animation: slideIn 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-surface);
+  z-index: 1;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.modal-payment-id {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition), color var(--transition);
+}
+
+.modal-close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.modal-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-section:last-child {
+  border-bottom: none;
+}
+
+/* Detail grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  align-items: baseline;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+/* Section headings */
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* Audit timeline */
+.audit-timeline {
+  list-style: none;
+  position: relative;
+  padding-left: 20px;
+}
+
+.audit-timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.audit-entry {
+  position: relative;
+  padding-bottom: 20px;
+  padding-left: 16px;
+}
+
+.audit-dot {
+  position: absolute;
+  left: -8px;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-surface);
+}
+
+.audit-action {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.audit-actor {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.audit-notes {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.audit-time {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
