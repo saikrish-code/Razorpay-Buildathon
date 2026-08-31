@@ -25,10 +25,36 @@ from app.database import Base
 
 # ── Enums ──────────────────────────────────────────────────────────────────────
 class TransactionStatus(str, enum.Enum):
+    open = "open"
     pending = "pending"
     success = "success"
     failed = "failed"
     refunded = "refunded"
+    recovered = "recovered"
+    unrecoverable = "unrecoverable"
+
+
+class TransactionType(str, enum.Enum):
+    one_time_checkout = "one_time_checkout"
+    subscription_renewal = "subscription_renewal"
+    checkout_abandonment = "checkout_abandonment"
+
+
+class FailureReasonCode(str, enum.Enum):
+    insufficient_funds = "insufficient_funds"
+    card_expired = "card_expired"
+    bank_timeout = "bank_timeout"
+    network_error = "network_error"
+    wrong_otp = "wrong_otp"
+    daily_limit_exceeded = "daily_limit_exceeded"
+    customer_abandoned = "customer_abandoned"
+    account_closed = "account_closed"
+
+
+class ChannelPreference(str, enum.Enum):
+    whatsapp = "whatsapp"
+    sms = "sms"
+    email = "email"
 
 
 class AuditAction(str, enum.Enum):
@@ -37,6 +63,7 @@ class AuditAction(str, enum.Enum):
     flagged = "flagged"
     reviewed = "reviewed"
     resolved = "resolved"
+    contact_attempted = "contact_attempted"
 
 
 # ── ORM Models ─────────────────────────────────────────────────────────────────
@@ -44,15 +71,24 @@ class Transaction(Base):
     __tablename__ = "transactions"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    razorpay_payment_id: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    transaction_id: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    razorpay_payment_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    customer_id: Mapped[str] = mapped_column(String(64), index=True)
+    type: Mapped[str] = mapped_column(String(64), index=True)
     amount: Mapped[float] = mapped_column(Float, nullable=False)
     currency: Mapped[str] = mapped_column(String(8), default="INR")
-    status: Mapped[TransactionStatus] = mapped_column(
-        Enum(TransactionStatus), default=TransactionStatus.pending
-    )
+    event_type: Mapped[str] = mapped_column(String(64), default="payment.failed")
+    failure_reason_code: Mapped[str] = mapped_column(String(64), index=True)
+    contact_attempts_so_far: Mapped[int] = mapped_column(Integer, default=0)
+    customer_channel_pref: Mapped[str] = mapped_column(String(32), default="whatsapp")
+    status: Mapped[str] = mapped_column(String(32), default="open", index=True)
+    
     customer_email: Mapped[str | None] = mapped_column(String(256), nullable=True)
     customer_phone: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    timestamp: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=True), default=datetime.datetime.now
+    )
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
@@ -87,7 +123,7 @@ class PolicyDocument(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     title: Mapped[str] = mapped_column(String(256), nullable=False)
-    content: Mapped[str] = mapped_column(Text, nullable=False)
+    content: Mapped[Text] = mapped_column(Text, nullable=False)
     version: Mapped[str] = mapped_column(String(32), default="1.0")
     is_active: Mapped[bool] = mapped_column(default=True)
     created_at: Mapped[datetime.datetime] = mapped_column(
