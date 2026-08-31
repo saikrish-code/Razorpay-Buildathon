@@ -15,7 +15,7 @@ export default function App() {
         {/* Top navigation bar */}
         <nav className="navbar" id="main-nav">
           <div className="nav-brand">
-            <span className="brand-logo">⚡</span>
+            <span className="brand-logo">₹</span>
             <span className="brand-name">recoup</span>
           </div>
           <div className="nav-links">
