@@ -15,7 +15,15 @@ from app.models.policy_document import (
     PolicyDocumentUpdate,
 )
 
+from app.retrieval import retrieve_policy
+
 router = APIRouter(prefix="/api/policy-documents", tags=["Policy Documents"])
+
+
+@router.get("/search", summary="Search policy documents via in-memory vector retriever")
+async def search_policies(q: str, k: int = 2) -> list[dict]:
+    """Retrieve top-k relevant policy chunks using cosine similarity."""
+    return retrieve_policy(query=q, k=k)
 
 
 @router.get("", response_model=list[PolicyDocumentRead], summary="List policy documents")

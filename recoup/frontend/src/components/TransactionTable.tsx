@@ -69,7 +69,7 @@ export default function TransactionTable({ transactions, onSelect, loading }: Pr
                 {new Intl.NumberFormat("en-IN", {
                   style: "currency",
                   currency: tx.currency,
-                }).format(tx.amount / 100)}
+                }).format(tx.amount)}
               </td>
               <td>
                 <span

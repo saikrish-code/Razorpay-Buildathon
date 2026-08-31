@@ -47,7 +47,7 @@ export default function TransactionDetailModal({ transaction, onClose }: Props) 
   const amountFormatted = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: transaction.currency,
-  }).format(transaction.amount / 100);
+  }).format(transaction.amount);
 
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" onClick={onClose}>
@@ -56,7 +56,7 @@ export default function TransactionDetailModal({ transaction, onClose }: Props) 
         <div className="modal-header">
           <div>
             <h2 className="modal-title">Transaction Details</h2>
-            <code className="modal-payment-id">{transaction.razorpay_payment_id}</code>
+            <code className="modal-payment-id">{transaction.transaction_id || transaction.razorpay_payment_id}</code>
           </div>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
             ✕
@@ -78,6 +78,10 @@ export default function TransactionDetailModal({ transaction, onClose }: Props) 
                 </span>
               }
             />
+            <DetailRow label="Type" value={transaction.type?.replace(/_/g, " ").toUpperCase() ?? "—"} />
+            <DetailRow label="Failure Reason" value={<code className="payment-id">{transaction.failure_reason_code ?? "—"}</code>} />
+            <DetailRow label="Channel Pref" value={transaction.customer_channel_pref?.toUpperCase() ?? "—"} />
+            <DetailRow label="Attempts" value={transaction.contact_attempts_so_far ?? 0} />
             <DetailRow label="Email" value={transaction.customer_email ?? "—"} />
             <DetailRow label="Phone" value={transaction.customer_phone ?? "—"} />
             <DetailRow label="Description" value={transaction.description ?? "—"} />
