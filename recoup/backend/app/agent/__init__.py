@@ -1,10 +1,16 @@
 """
 agent/__init__.py
 -----------------
-Agentic reasoning, payment diagnostics, and policy execution.
+Agentic reasoning, payment diagnostics, tool-calling, and policy execution.
 """
 
-from app.agent.agent import RecoupAgent
+from app.agent.agent import (
+    AGENT_TOOLS_SCHEMA,
+    AgentDecision,
+    AgentExecutionResult,
+    RecoupAgent,
+    ToolExecutionRecord,
+)
 from app.agent.diagnose import (
     DiagnosisResult,
     LLMDiagnosisResponse,
@@ -20,6 +26,10 @@ from app.agent.diagnose import (
 
 __all__ = [
     "RecoupAgent",
+    "AgentDecision",
+    "AgentExecutionResult",
+    "ToolExecutionRecord",
+    "AGENT_TOOLS_SCHEMA",
     "RecoveryCategory",
     "DiagnosisResult",
     "LLMDiagnosisResponse",
