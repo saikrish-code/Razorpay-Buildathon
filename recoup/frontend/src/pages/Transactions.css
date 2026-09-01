@@ -1,34 +1,164 @@
-/* ── Transactions page ───────────────────────────────────────────────────── */
-.transactions-page {
+/* ───────────────────────────────────────────────────────────────────────────
+   Transactions.css — Professional B2B Fintech Transactions Styling
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.b2b-transactions-page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
-.page-header {
+.transactions-header-row {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 2px;
 }
 
-.page-title {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.8px;
+.b2b-ledger-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-size: 12.5px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.summary-count-lbl {
+  color: var(--text-secondary);
+}
+
+.summary-dot-sep {
+  color: var(--text-muted);
+}
+
+.summary-amount-lbl {
+  font-weight: 500;
+  color: var(--brand-navy);
+}
+
+/* ── Compact Dropdown Chips Filter Bar ───────────────────────────────────── */
+.compact-filter-bar {
+  padding: 10px 14px;
+}
+
+.filter-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Chip Dropdown */
+.chip-dropdown-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px 4px 10px;
+  font-size: 12.5px;
+  transition: border-color var(--transition);
+}
+
+.chip-dropdown-wrapper:hover {
+  border-color: #D0D5DD;
+}
+
+.chip-dropdown-wrapper:focus-within {
+  border-color: var(--accent-blue);
+  background-color: var(--bg-surface);
+}
+
+.chip-prefix {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.chip-select {
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.chip-select option {
+  background-color: var(--bg-surface);
   color: var(--text-primary);
 }
 
-.page-subtitle {
-  color: var(--text-secondary);
-  font-size: 14px;
+/* Compact Search Form */
+.chip-search-form {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
 }
 
-.error-banner {
-  padding: 14px 18px;
-  background: var(--danger-muted);
-  border: 1px solid rgba(248, 113, 113, 0.25);
-  border-radius: var(--radius-md);
-  color: var(--danger);
-  font-size: 13px;
+.chip-search-input {
+  width: 100%;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 26px 6px 10px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.chip-search-input:focus {
+  border-color: var(--accent-blue);
+  background-color: var(--bg-surface);
+}
+
+.chip-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.chip-search-clear {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.chip-search-clear:hover {
+  color: var(--text-primary);
+}
+
+.clear-filters-link {
+  background: transparent;
+  border: none;
+  color: var(--status-written-off-text);
+  font-family: var(--font-sans);
+  font-size: 12px;
   font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  transition: background-color var(--transition);
+}
+
+.clear-filters-link:hover {
+  background-color: var(--status-written-off-bg);
+  text-decoration: underline;
 }

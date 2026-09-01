@@ -1,65 +1,72 @@
 /* ───────────────────────────────────────────────────────────────────────────
-   index.css — Global design system · Dark fintech theme with warm gold accents
+   index.css — Professional Light-Theme B2B Fintech Design System
+   Visual family of Stripe Dashboard, Razorpay Dashboard, and Mercury:
+   Restrained color, strong typographic hierarchy, generous whitespace,
+   no gradients, no glow effects — color encoded strictly for status & meaning.
    ─────────────────────────────────────────────────────────────────────────── */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
-/* ── Design tokens ─────────────────────────────────────────────────────────── */
 :root {
-  /* Backgrounds — deep dark with warm undertones */
-  --bg-base: #08090b;
-  --bg-surface: #111318;
-  --bg-elevated: #181b22;
-  --bg-card: #15171e;
-  --bg-hover: #1d2029;
-  --bg-input: #0e1014;
+  /* Surfaces & Backgrounds */
+  --bg-page: #F7F8FA;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F2F4F7;
+  --bg-hover: #F8F9FA;
+  --bg-active-nav: #F0F8FF;
 
-  /* Borders */
-  --border: #1f222d;
-  --border-light: #282c3a;
-  --border-accent: rgba(200, 185, 100, 0.15);
+  /* Borders & Dividers */
+  --border: #E4E7EC;
+  --border-subtle: #F2F4F7;
+  --border-focus: #0D94FB;
 
-  /* Text */
-  --text-primary: #f0f0f2;
-  --text-secondary: #858a9c;
-  --text-muted: #4e5264;
-  --text-inverse: #0c0d0f;
+  /* Text Colors */
+  --text-primary: #101828;
+  --text-secondary: #667085;
+  --text-muted: #98A2B3;
+  --text-navy: #0C2651;
 
-  /* Accent — warm gold / olive / cream (from reference) */
-  --accent-gold: #c8b560;
-  --accent-cream: #e8dfa0;
-  --accent-light: #f5f0d0;
-  --accent-olive: #8a8840;
-  --accent-glow: rgba(200, 181, 96, 0.15);
-  --accent-glow-strong: rgba(200, 181, 96, 0.25);
+  /* Primary Brand Navy & Accent Blue */
+  --brand-navy: #0C2651;
+  --brand-navy-hover: #081B3A;
+  --accent-blue: #0D94FB;
+  --accent-blue-hover: #0B7CD4;
+  --accent-blue-tint: rgba(13, 148, 251, 0.08);
 
-  /* Semantic */
-  --success: #34d399;
-  --success-muted: rgba(52, 211, 153, 0.12);
-  --warning: #fbbf24;
-  --warning-muted: rgba(251, 191, 36, 0.12);
-  --danger: #f87171;
-  --danger-muted: rgba(248, 113, 113, 0.12);
-  --info: #818cf8;
-  --info-muted: rgba(129, 140, 248, 0.12);
+  /* Semantic Status Tokens (10% opacity fill + full strength text) */
+  --status-recovered-text: #0F6E56;
+  --status-recovered-bg: rgba(15, 110, 86, 0.10);
+  --status-recovered-border: rgba(15, 110, 86, 0.20);
+
+  --status-written-off-text: #B3261E;
+  --status-written-off-bg: rgba(179, 38, 30, 0.10);
+  --status-written-off-border: rgba(179, 38, 30, 0.20);
+
+  --status-warning-text: #B5830D;
+  --status-warning-bg: rgba(181, 131, 13, 0.10);
+  --status-warning-border: rgba(181, 131, 13, 0.25);
+
+  --status-open-text: #0C2651;
+  --status-open-bg: rgba(12, 38, 81, 0.08);
+  --status-open-border: rgba(12, 38, 81, 0.15);
+
+  /* Typography */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
 
   /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-card: 10px;
   --radius-pill: 999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.55);
-  --shadow-gold: 0 4px 24px rgba(200, 181, 96, 0.08);
+  /* Subtle Shadow */
+  --shadow-subtle: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-slideover: -4px 0 20px rgba(16, 24, 40, 0.08);
 
-  /* Motion */
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition: 220ms var(--ease);
-  --transition-slow: 400ms var(--ease);
+  /* Transitions */
+  --transition: 120ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Reset ─────────────────────────────────────────────────────────────────── */
@@ -75,86 +82,188 @@ html, body, #root {
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  background: var(--bg-base);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: var(--bg-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular numbers across financial metrics */
+.tabular, .amount, .metric-value, time {
+  font-variant-numeric: tabular-nums;
 }
 
 a {
-  color: var(--accent-cream);
+  color: var(--accent-blue);
   text-decoration: none;
   transition: color var(--transition);
 }
 
 a:hover {
-  color: var(--accent-light);
+  color: var(--accent-blue-hover);
 }
 
 code, pre {
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: var(--font-mono);
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-/* ── Utility classes ───────────────────────────────────────────────────────── */
-.muted-text { color: var(--text-muted); font-size: 13px; }
-.secondary-text { color: var(--text-secondary); }
-.error-text  { color: var(--danger); }
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-cream) 50%, var(--accent-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Scrollbars ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D0D5DD;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #98A2B3;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: var(--radius-pill);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-inverse);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* ── Glass card base ───────────────────────────────────────────────────────── */
-.card {
-  background: var(--bg-card);
+/* ── Standard Card Surface ────────────────────────────────────────────────── */
+.b2b-card {
+  background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-subtle);
 }
 
-.card:hover {
-  border-color: var(--border-accent);
-  box-shadow: var(--shadow-gold);
+/* ── Primary Buttons ──────────────────────────────────────────────────────── */
+.btn-primary-blue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--accent-blue);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-blue);
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: background-color var(--transition), border-color var(--transition);
 }
 
-/* ── Accent card (gold gradient background, like the balance card in ref) ── */
-.card-accent {
-  background: linear-gradient(135deg, rgba(200, 181, 96, 0.12) 0%, rgba(232, 223, 160, 0.08) 100%);
-  border: 1px solid rgba(200, 181, 96, 0.2);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
+.btn-primary-blue:hover:not(:disabled) {
+  background-color: var(--accent-blue-hover);
+  border-color: var(--accent-blue-hover);
 }
 
-.card-accent::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at top right, rgba(200, 181, 96, 0.12) 0%, transparent 60%);
-  pointer-events: none;
+.btn-primary-blue:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary-blue:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-secondary-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.btn-secondary-white:hover {
+  background-color: var(--bg-hover);
+  border-color: #D0D5DD;
+}
+
+/* ── Soft Tinted Status Pills (10% opacity fill + full strength text) ─────── */
+.status-pill-b2b {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.status-pill-b2b.recovered {
+  background-color: var(--status-recovered-bg);
+  color: var(--status-recovered-text);
+  border: 1px solid var(--status-recovered-border);
+}
+
+.status-pill-b2b.written-off {
+  background-color: var(--status-written-off-bg);
+  color: var(--status-written-off-text);
+  border: 1px solid var(--status-written-off-border);
+}
+
+.status-pill-b2b.pending {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning-text);
+  border: 1px solid var(--status-warning-border);
+}
+
+.status-pill-b2b.open {
+  background-color: var(--status-open-bg);
+  color: var(--status-open-text);
+  border: 1px solid var(--status-open-border);
+}
+
+/* Razorpay-style Test Mode Amber Badge */
+.test-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning-text);
+  border: 1px solid var(--status-warning-border);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.2px;
+}
+
+.test-mode-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--status-warning-text);
+}
+
+/* ── Smooth Fade Transition ──────────────────────────────────────────────── */
+@keyframes b2bFade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-wrapper {
+  animation: b2bFade 160ms ease-out forwards;
 }

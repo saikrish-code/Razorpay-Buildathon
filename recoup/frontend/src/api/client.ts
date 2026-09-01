@@ -1,11 +1,17 @@
 /**
  * api/client.ts
- * Axios instance pre-configured to hit the backend.
- * In development, Vite proxies /api → http://localhost:8000.
- * In production, set VITE_API_BASE_URL to the deployed backend URL.
+ * Axios instance and typed helpers for Recoup AI endpoints.
  */
 
 import axios from "axios";
+import type {
+  AuditLog,
+  HealthResponse,
+  ReportResponse,
+  RunBatchResponse,
+  Transaction,
+  TransactionFilterParams,
+} from "../types";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL ?? "";
 
@@ -14,32 +20,43 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 15_000,
+  timeout: 30_000,
 });
 
 export default apiClient;
 
-// ── Typed helper functions ────────────────────────────────────────────────────
-
-import type { AuditLog, HealthResponse, Transaction } from "../types";
+// ── Typed API Helpers ─────────────────────────────────────────────────────────
 
 export const api = {
   health: {
     get: () => apiClient.get<HealthResponse>("/api/health").then((r) => r.data),
   },
 
-  transactions: {
-    list: (skip = 0, limit = 100) =>
+  report: {
+    get: () => apiClient.get<ReportResponse>("/api/report").then((r) => r.data),
+  },
+
+  pipeline: {
+    runBatch: (limit?: number, random_seed: number = 42) =>
       apiClient
-        .get<Transaction[]>("/api/transactions", { params: { skip, limit } })
+        .post<RunBatchResponse>("/api/run-batch", { limit, random_seed })
+        .then((r) => r.data),
+  },
+
+  transactions: {
+    list: (params?: TransactionFilterParams) =>
+      apiClient
+        .get<Transaction[]>("/api/transactions", { params: { limit: 100, ...params } })
         .then((r) => r.data),
 
-    getById: (id: number) =>
-      apiClient.get<Transaction>(`/api/transactions/${id}`).then((r) => r.data),
-
-    auditLogs: (id: number) =>
+    getById: (identifier: string | number) =>
       apiClient
-        .get<AuditLog[]>(`/api/transactions/${id}/audit-logs`)
+        .get<Transaction>(`/api/transactions/${identifier}`)
+        .then((r) => r.data),
+
+    auditLogs: (identifier: string | number) =>
+      apiClient
+        .get<AuditLog[]>(`/api/transactions/${identifier}/audit-logs`)
         .then((r) => r.data),
   },
 };

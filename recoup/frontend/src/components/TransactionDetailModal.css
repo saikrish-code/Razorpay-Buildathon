@@ -1,184 +1,431 @@
-/* ── TransactionDetailModal ───────────────────────────────────────────────── */
-.modal-overlay {
+/* ───────────────────────────────────────────────────────────────────────────
+   TransactionDetailModal.css — Professional B2B Slide-Over Panel Styling
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.b2b-slideover-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
+  background-color: rgba(16, 24, 40, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
   display: flex;
   justify-content: flex-end;
-  animation: fadeIn 200ms var(--ease);
+  animation: b2bFade 140ms ease-out;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.modal-panel {
-  width: min(480px, 100vw);
-  height: 100vh;
-  overflow-y: auto;
-  background: var(--bg-surface);
+.b2b-slideover-panel {
+  width: 100%;
+  max-width: 580px;
+  height: 100%;
+  background-color: var(--bg-surface);
   border-left: 1px solid var(--border);
+  box-shadow: var(--shadow-slideover);
   display: flex;
   flex-direction: column;
-  animation: slideIn 280ms var(--ease);
-  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  padding: 28px 32px;
+  animation: slideFromRight 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+@keyframes slideFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
-.modal-header {
+/* ── Panel Header ────────────────────────────────────────────────────────── */
+.slideover-header-row {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: var(--bg-surface);
-  z-index: 1;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 20px;
 }
 
-.modal-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--text-primary);
+.slideover-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
-.modal-payment-id {
-  font-size: 11px;
-  color: var(--text-muted);
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+.slideover-id-mono {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--brand-navy);
 }
 
-.modal-close-btn {
-  background: var(--bg-elevated);
+.slideover-desc-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.slideover-btn-close {
+  background: transparent;
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  font-size: 14px;
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
-  transition: background var(--transition), color var(--transition), border-color var(--transition);
-}
-
-.modal-close-btn:hover {
-  background: var(--bg-hover);
-  border-color: var(--border-light);
-  color: var(--text-primary);
-}
-
-.modal-section {
-  padding: 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-section:last-child {
-  border-bottom: none;
-}
-
-/* ── Detail grid ─────────────────────────────────────────────────────────── */
-.detail-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px 20px;
-  align-items: baseline;
-}
-
-.detail-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.detail-value {
-  font-size: 14px;
-  color: var(--text-primary);
-  word-break: break-word;
-}
-
-/* ── Section headings ────────────────────────────────────────────────────── */
-.section-title {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.slideover-btn-close:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: #D0D5DD;
+}
+
+/* ── Transaction Metadata Grid ───────────────────────────────────────────── */
+.slideover-meta-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.meta-box-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-lbl {
+  font-size: 11.5px;
   color: var(--text-muted);
-  margin-bottom: 18px;
 }
 
-/* ── Audit timeline ──────────────────────────────────────────────────────── */
-.audit-timeline {
-  list-style: none;
-  position: relative;
-  padding-left: 24px;
+.meta-val {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--brand-navy);
 }
 
-.audit-timeline::before {
-  content: "";
-  position: absolute;
-  left: 6px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
+/* ── Vertical Stepper ────────────────────────────────────────────────────── */
+.stepper-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
 }
 
-.audit-entry {
+.stepper-section-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-navy);
+}
+
+.vertical-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stepper-step {
+  display: flex;
+  gap: 14px;
   position: relative;
   padding-bottom: 22px;
-  padding-left: 18px;
 }
 
-.audit-entry:last-child {
+.stepper-step:last-child {
   padding-bottom: 0;
 }
 
-.audit-dot {
-  position: absolute;
-  left: -8px;
-  top: 5px;
+/* Stepper Rail & Node Circles */
+.stepper-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+.stepper-circle {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cream));
-  border: 2px solid var(--bg-surface);
-  box-shadow: 0 0 0 2px var(--border);
-}
-
-.audit-action {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text-primary);
-}
-
-.audit-actor {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.audit-notes {
-  color: var(--text-secondary);
-  font-size: 13px;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--border);
+  z-index: 2;
   margin-top: 4px;
-  line-height: 1.5;
 }
 
-.audit-time {
+.circle-teal {
+  border-color: var(--status-recovered-text);
+  background-color: var(--status-recovered-text);
+}
+
+.circle-navy {
+  border-color: var(--brand-navy);
+  background-color: var(--brand-navy);
+}
+
+.circle-danger {
+  border-color: var(--status-written-off-text);
+  background-color: var(--status-written-off-text);
+}
+
+.circle-warning {
+  border-color: var(--status-warning-text);
+  background-color: var(--status-warning-text);
+}
+
+.stepper-line {
+  width: 1.5px;
+  flex: 1;
+  background-color: var(--border);
+  margin-top: 2px;
+  margin-bottom: -2px;
+}
+
+/* Stepper Body Content */
+.stepper-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stepper-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepper-step-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-navy);
+}
+
+.stepper-tag {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.stepper-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.stepper-meta-row {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.stepper-meta-row code {
+  color: var(--brand-navy);
+}
+
+/* Quoted Indented Citation Block (Visually Grounded in Real Rule) */
+.policy-doc-chip {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--brand-navy);
+  background-color: var(--status-open-bg);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.policy-citation-quote {
+  margin: 4px 0 2px 0;
+  padding: 12px 16px;
+  background-color: var(--bg-page);
+  border-left: 3px solid var(--brand-navy);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.citation-quote-text {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-style: normal;
+  margin-bottom: 4px;
+}
+
+.citation-quote-source {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Tool & Outreach Preview */
+.tool-chip-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--brand-navy);
+  background-color: var(--bg-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.outreach-preview-container {
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+
+.outreach-lbl {
   display: block;
   font-size: 11px;
   color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.outreach-text {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* Guardrail Checklist */
+.guardrail-checklist-b2b {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin-top: 4px;
+}
+
+.guardrail-check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.check-mark {
+  color: var(--status-recovered-text);
+  font-weight: 600;
+}
+
+/* Outcome Box */
+.outcome-box-b2b {
+  padding: 12px 14px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-top: 4px;
+}
+
+.outcome-meta-lbl {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.outcome-number-large {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--status-recovered-text);
+  margin-top: 2px;
+}
+
+.outcome-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.text-danger {
+  color: var(--status-written-off-text);
+}
+
+/* ── Raw Logs Accordion ──────────────────────────────────────────────────── */
+.raw-logs-b2b-section {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 18px;
+}
+
+.raw-logs-b2b-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.raw-logs-b2b-toggle:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.raw-logs-count {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.raw-logs-b2b-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.raw-log-card {
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+.raw-log-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.raw-action-chip {
+  font-weight: 500;
+  color: var(--brand-navy);
+}
+
+.raw-actor-sub {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.raw-time-sub {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.raw-notes-body {
+  color: var(--text-primary);
+  line-height: 1.4;
 }
