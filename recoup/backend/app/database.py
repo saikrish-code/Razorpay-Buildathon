@@ -5,14 +5,37 @@ SQLAlchemy (async) engine, session factory, and startup initialisation.
 Uses aiosqlite as the async driver for SQLite.
 """
 
+from pathlib import Path
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
+
+def resolve_database_url() -> str:
+    """Resolves the database URL, ensuring SQLite files resolve to the populated database."""
+    url = settings.database_url
+    if "sqlite" in url:
+        cwd = Path.cwd()
+        app_dir = Path(__file__).resolve().parent
+        backend_dir = app_dir.parent
+
+        candidates = [
+            backend_dir / "recoup.db",
+            cwd / "recoup" / "backend" / "recoup.db",
+            cwd / "backend" / "recoup.db",
+            cwd / "recoup.db",
+        ]
+        for candidate in candidates:
+            if candidate.exists() and candidate.stat().st_size > 1000:
+                posix_path = candidate.resolve().as_posix()
+                return f"sqlite+aiosqlite:///{posix_path}"
+    return url
+
+
 # ── Engine ─────────────────────────────────────────────────────────────────────
 engine = create_async_engine(
-    settings.database_url,
+    resolve_database_url(),
     echo=settings.debug,
     connect_args={"check_same_thread": False},  # needed for SQLite
 )

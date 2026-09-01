@@ -5,9 +5,14 @@ Pydantic v2 schemas for Transaction request / response payloads.
 These are separate from the SQLAlchemy ORM models in db/base.py.
 """
 
+from __future__ import annotations
+
 import datetime
+from typing import List, Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
+
+from app.models.audit_log import AuditLogRead
 
 
 class TransactionBase(BaseModel):
@@ -48,5 +53,14 @@ class TransactionRead(TransactionBase):
     id: int
     created_at: datetime.datetime
     updated_at: datetime.datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class TransactionDetailRead(TransactionRead):
+    """Returned by GET /transactions/{id} — includes complete ordered audit trail."""
+    audit_logs: List[AuditLogRead] = Field(
+        default_factory=list, description="Ordered audit trail entries for this transaction"
+    )
 
     model_config = ConfigDict(from_attributes=True)
