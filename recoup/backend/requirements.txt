@@ -6,3 +6,5 @@ pydantic>=2.10.0
 pydantic-settings>=2.7.0
 email-validator>=2.2.0
 python-dotenv>=1.0.1
+openai>=1.50.0
+pytest>=8.0.0

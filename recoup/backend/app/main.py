@@ -49,3 +49,36 @@ app.include_router(health.router)
 app.include_router(transactions.router)
 app.include_router(audit_logs.router)
 app.include_router(policy_documents.router)
+
+
+# ── Root & Navigation Endpoints ────────────────────────────────────────────────
+@app.get("/", tags=["root"], summary="API Root Overview")
+async def root():
+    """Returns application status and available API route links."""
+    return {
+        "app": settings.app_name,
+        "version": settings.app_version,
+        "status": "online",
+        "message": "Welcome to Recoup AI Revenue Recovery API",
+        "docs_url": "/api/docs",
+        "endpoints": {
+            "health": "/api/health",
+            "transactions": "/api/transactions",
+            "audit_logs": "/api/audit-logs",
+            "policy_documents": "/api/policy-documents",
+        },
+    }
+
+
+@app.get("/docs", include_in_schema=False)
+async def redirect_docs():
+    """Redirect /docs to /api/docs for convenience."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/api/docs")
+
+
+@app.get("/api", include_in_schema=False)
+async def api_root():
+    """Redirect /api to /api/docs."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/api/docs")

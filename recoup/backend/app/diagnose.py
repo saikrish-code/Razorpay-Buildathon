@@ -1,10 +1,9 @@
 """
-agent/__init__.py
------------------
-Agentic reasoning, payment diagnostics, and policy execution.
+app/diagnose.py
+---------------
+Direct export module for payment failure diagnosis engine.
 """
 
-from app.agent.agent import RecoupAgent
 from app.agent.diagnose import (
     DiagnosisResult,
     LLMDiagnosisResponse,
@@ -19,7 +18,6 @@ from app.agent.diagnose import (
 )
 
 __all__ = [
-    "RecoupAgent",
     "RecoveryCategory",
     "DiagnosisResult",
     "LLMDiagnosisResponse",
