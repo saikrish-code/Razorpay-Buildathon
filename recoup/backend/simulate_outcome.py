@@ -108,9 +108,12 @@ def calculate_effective_probability(
     if base_prob == 0.0:
         return 0.0
 
-    # Apply channel multiplier for customer outreach
-    ch_key = str(channel).lower().strip()
-    multiplier = CHANNEL_ENGAGEMENT_MULTIPLIERS.get(ch_key, 1.0)
+    # Channel engagement multiplier applies to customer messaging, not automated gateway retries
+    if action in {"simulate_retry_payment", "retry_payment", "technical_retry"}:
+        multiplier = 1.0
+    else:
+        ch_key = str(channel).lower().strip()
+        multiplier = CHANNEL_ENGAGEMENT_MULTIPLIERS.get(ch_key, 1.0)
 
     # Attempt factor: First touchpoint has highest awareness; slight decay on repeat touches
     attempt_decay = max(0.85, 1.0 - (contact_attempts * 0.05))
