@@ -70,6 +70,28 @@ async def init_db() -> None:
     """Create all tables defined in db/base.py (safe to call on every startup)."""
     # Import here to ensure ORM models are registered before create_all
     from app.db import base as _  # noqa: F401
+    from app.db.base import Transaction
+    from sqlalchemy import func, select
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    # Seed initial demo dataset if database is brand new and empty (e.g. fresh cloud container)
+    try:
+        async with AsyncSessionLocal() as session:
+            count_res = await session.execute(select(func.count(Transaction.id)))
+            count = count_res.scalar() or 0
+            if count == 0:
+                import sqlite3
+                from generate_data import build_dataset, find_db_path, insert_records
+                db_file = find_db_path()
+                if db_file.exists():
+                    conn = sqlite3.connect(str(db_file))
+                    try:
+                        records = build_dataset()
+                        insert_records(conn, records)
+                    finally:
+                        conn.close()
+    except Exception:
+        # Non-fatal fallback: do not interrupt startup if auto-seeding is skipped
+        pass
