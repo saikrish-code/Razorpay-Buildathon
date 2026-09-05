@@ -55,11 +55,11 @@ export function RecoupLogo({ className = "", size = 24 }: LogoProps) {
     >
       <RecoupIconMark size={size} />
 
-      {/* SVG Wordmark with subtle upward curve on final 'p' tail */}
+      {/* SVG Wordmark */}
       <svg
-        width="82"
+        width="70"
         height="22"
-        viewBox="0 0 82 22"
+        viewBox="0 0 70 22"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-label="recoup"
@@ -75,13 +75,6 @@ export function RecoupLogo({ className = "", size = 24 }: LogoProps) {
         >
           recoup
         </text>
-        {/* Signature flourish: subtle upward flick/curve on the tail of the final 'p' */}
-        <path
-          d="M74.5 17.5C75 19 76.5 19.5 78.5 18.5"
-          stroke="#0C2651"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
       </svg>
     </div>
   );
