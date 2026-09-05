@@ -36,6 +36,8 @@ export default function Dashboard() {
     fetchReport();
   }, []);
 
+  const [resetting, setResetting] = useState<boolean>(false);
+
   const handleRunBatch = async () => {
     try {
       setRunningBatch(true);
@@ -48,6 +50,21 @@ export default function Dashboard() {
       setBatchMessage("Batch recovery execution failed.");
     } finally {
       setRunningBatch(false);
+    }
+  };
+
+  const handleResetData = async () => {
+    try {
+      setResetting(true);
+      setBatchMessage(null);
+      await api.pipeline.resetData();
+      await fetchReport();
+      setBatchMessage("Dataset reset to baseline (250 open records). Ready to run recovery batch.");
+      setLastUpdated(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+    } catch (err) {
+      setBatchMessage("Dataset reset failed.");
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -87,9 +104,19 @@ export default function Dashboard() {
           <span className="last-sync-time">Updated {lastUpdated}</span>
 
           <button
+            className="btn-secondary-white"
+            onClick={handleResetData}
+            disabled={resetting || runningBatch}
+            id="reset-dataset-button"
+            title="Reset all transactions back to 'open' state for demonstration"
+          >
+            {resetting ? "Resetting…" : "↺ Reset dataset"}
+          </button>
+
+          <button
             className="btn-primary-blue"
             onClick={handleRunBatch}
-            disabled={runningBatch}
+            disabled={runningBatch || resetting}
             id="run-batch-button"
           >
             {runningBatch ? (

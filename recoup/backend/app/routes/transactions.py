@@ -344,3 +344,26 @@ async def get_recovery_report(
         by_category=category_stats,
         by_channel=channel_stats,
     )
+
+
+# ── POST /reset-data (Reset to baseline for live demos) ─────────────────────────
+
+@router.post(
+    "/reset-data",
+    summary="Reset dataset to baseline",
+    description="Resets all 250 payment failure transactions to 'open' status for live demo.",
+)
+@router.post(
+    "/api/reset-data",
+    include_in_schema=False,
+)
+async def reset_data(db: AsyncSession = Depends(get_db)):
+    """Reset dataset to initial 250 open transactions and fresh audit logs."""
+    import asyncio
+    from generate_data import main as reset_main
+    await asyncio.to_thread(reset_main)
+    return {
+        "status": "success",
+        "message": "Dataset reset to initial 250 payment failure records.",
+    }
+

@@ -41,6 +41,10 @@ export const api = {
       apiClient
         .post<RunBatchResponse>("/api/run-batch", { limit, random_seed })
         .then((r) => r.data),
+    resetData: () =>
+      apiClient
+        .post<{ status: string; message: string }>("/api/reset-data")
+        .then((r) => r.data),
   },
 
   transactions: {
