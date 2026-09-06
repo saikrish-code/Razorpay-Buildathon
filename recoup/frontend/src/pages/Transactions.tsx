@@ -65,7 +65,12 @@ export default function Transactions() {
       if (searchQuery.trim()) params.search = searchQuery.trim();
 
       const data = await api.transactions.list(params);
-      setTransactions(data);
+      if (Array.isArray(data)) {
+        setTransactions(data);
+      } else {
+        setTransactions([]);
+        setError("Unable to load transactions from backend server.");
+      }
     } catch (err) {
       setError("Unable to load transactions from backend server.");
     } finally {

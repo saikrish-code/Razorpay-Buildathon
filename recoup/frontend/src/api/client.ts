@@ -23,6 +23,23 @@ const apiClient = axios.create({
   timeout: 30_000,
 });
 
+apiClient.interceptors.response.use((response) => {
+  const contentType = (response.headers?.["content-type"] as string) || "";
+  if (
+    typeof response.data === "string" &&
+    (response.data.trim().startsWith("<!DOCTYPE") ||
+      response.data.trim().startsWith("<html") ||
+      contentType.includes("text/html"))
+  ) {
+    return Promise.reject(
+      new Error(
+        `API endpoint ${response.config.url || ""} returned HTML instead of JSON. Backend service may be unreachable or not configured.`
+      )
+    );
+  }
+  return response;
+});
+
 export default apiClient;
 
 // ── Typed API Helpers ─────────────────────────────────────────────────────────
