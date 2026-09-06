@@ -8,7 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# dist is tracked so the unified single-service backend can serve it in cloud deployments
+!dist
+!dist/**
 dist-ssr
 *.local
 

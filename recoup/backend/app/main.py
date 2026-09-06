@@ -18,8 +18,22 @@ from app.config import settings
 from app.database import init_db
 from app.routes import audit_logs, health, policy_documents, transactions
 
-# Path to built React frontend
-FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+# Path to built React frontend with resilient resolution across cloud environments
+def _resolve_frontend_dist() -> Path:
+    candidates = [
+        Path(__file__).resolve().parent.parent.parent / "frontend" / "dist",
+        Path(__file__).resolve().parent.parent / "frontend" / "dist",
+        Path.cwd() / "recoup" / "frontend" / "dist",
+        Path.cwd() / "frontend" / "dist",
+        Path.cwd().parent / "frontend" / "dist",
+    ]
+    for candidate in candidates:
+        if candidate.exists() and (candidate / "index.html").exists():
+            return candidate
+    return candidates[0]
+
+
+FRONTEND_DIST = _resolve_frontend_dist()
 
 
 # ── Lifespan (startup / shutdown) ──────────────────────────────────────────────
@@ -68,10 +82,28 @@ app.include_router(policy_documents.router)
 # ── Root & Navigation Endpoints ────────────────────────────────────────────────
 @app.get("/", tags=["root"], summary="API Root Overview")
 async def root(request: Request):
-    """Returns frontend SPA if requested by browser, or API status if JSON requested."""
+    """Returns frontend SPA for browsers, or API status if JSON requested."""
     accept = request.headers.get("accept", "")
     index_html = FRONTEND_DIST / "index.html"
-    if "text/html" in accept and index_html.exists():
+
+    # Only return JSON if caller explicitly requested application/json without html
+    if "application/json" in accept and "text/html" not in accept:
+        return {
+            "app": settings.app_name,
+            "version": settings.app_version,
+            "status": "online",
+            "message": "Welcome to Recoup AI Revenue Recovery API",
+            "docs_url": "/api/docs",
+            "endpoints": {
+                "health": "/api/health",
+                "transactions": "/api/transactions",
+                "audit_logs": "/api/audit-logs",
+                "policy_documents": "/api/policy-documents",
+            },
+        }
+
+    # Default to React SPA dashboard
+    if index_html.exists():
         return FileResponse(str(index_html))
 
     return {

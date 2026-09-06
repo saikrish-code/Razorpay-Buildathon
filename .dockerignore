@@ -1,0 +1,11 @@
+.git
+.agents
+.gemini
+__pycache__
+*.py[cod]
+.pytest_cache
+node_modules
+recoup/frontend/node_modules
+.env
+.env.*
+demo-assets

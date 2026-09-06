@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Clean white background with subtle rounded border -->
+  <rect width="32" height="32" rx="6" fill="#FFFFFF" />
+
+  <!-- Razorpay-inspired angular sharp-cut "R" in Navy #0C2651 with return-arrow hook -->
+  <g stroke="#0C2651" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Vertical stem -->
+    <line x1="8" y1="6" x2="8" y2="26" />
+    <!-- Angular top loop -->
+    <path d="M8 6H18C21.5 6 23.5 8 23.5 11.5C23.5 15 21.5 17 18 17H8" />
+    <!-- Angular leg with return-arrow hook curling back -->
+    <path d="M15 17L22.5 26L26 21.5" />
+    <polyline points="23,21.5 26,21.5 26,24.5" />
+  </g>
+</svg>
