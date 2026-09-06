@@ -15,10 +15,11 @@ services:
       - key: DATABASE_URL
         value: sqlite+aiosqlite:///./recoup.db
       - key: OPENAI_API_KEY
-        sync: false
+        value: ""
       - key: OPENAI_MODEL
         value: gpt-4o-mini
       - key: RAZORPAY_KEY_ID
-        sync: false
+        value: ""
       - key: RAZORPAY_KEY_SECRET
-        sync: false
+        value: ""
+
