@@ -250,3 +250,118 @@
     display: none;
   }
 }
+
+/* ── API Health Warning Banner ─────────────────────────────────────────── */
+.api-health-banner {
+  background-color: #FEF3F2;
+  border-bottom: 1px solid #FECDCA;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #B42318;
+  animation: slideDown 200ms ease-out;
+  position: sticky;
+  top: 61px;
+  z-index: 45;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.api-health-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.api-health-banner-icon {
+  flex-shrink: 0;
+  color: #D92D20;
+}
+
+.api-health-banner-text {
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.api-health-banner-text strong {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.api-health-banner-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.api-health-retry-btn {
+  background-color: #FFFFFF;
+  border: 1px solid #FDA29B;
+  color: #B42318;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.api-health-retry-btn:hover {
+  background-color: #FEE4E2;
+}
+
+.api-health-retry-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.api-health-dismiss-btn {
+  background: none;
+  border: none;
+  color: #F04438;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--radius-xs);
+  transition: background-color var(--transition);
+}
+
+.api-health-dismiss-btn:hover {
+  background-color: #FEE4E2;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+

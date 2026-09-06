@@ -5,8 +5,11 @@
  * top bar with breadcrumb title, "Test mode" amber badge, search, and user avatar.
  */
 
+import { useCallback, useEffect, useState } from "react";
 import { NavLink, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
+import { api } from "./api/client";
 import "./App.css";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { RecoupLogo } from "./components/Logo";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
@@ -55,6 +58,36 @@ function TopBar() {
 }
 
 export default function App() {
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [isCheckingApi, setIsCheckingApi] = useState<boolean>(false);
+  const [isDismissed, setIsDismissed] = useState<boolean>(false);
+
+  const checkApiHealth = useCallback(async () => {
+    setIsCheckingApi(true);
+    try {
+      const res = await api.health.get();
+      if (res && (res.status === "ok" || res.status === "healthy" || res.app)) {
+        setApiError(null);
+      } else {
+        setApiError(
+          "API health check returned non-200 or unexpected status. Check backend service status."
+        );
+      }
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const msg = status
+        ? `API returned HTTP ${status} during startup health check.`
+        : "API base URL is unreachable. Verify that the backend server is running and network connection is active.";
+      setApiError(msg);
+    } finally {
+      setIsCheckingApi(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkApiHealth();
+  }, [checkApiHealth]);
+
   return (
     <Router>
       <div className="b2b-layout-shell">
@@ -94,7 +127,7 @@ export default function App() {
             </NavLink>
 
             <a
-              href="http://localhost:8000/api/docs"
+              href="/api/docs"
               target="_blank"
               rel="noreferrer"
               className="b2b-nav-item"
@@ -121,26 +154,103 @@ export default function App() {
         <div className="b2b-main-wrapper">
           <TopBar />
 
+          {/* ── Startup API Health Check Banner ── */}
+          {apiError && !isDismissed && (
+            <div className="api-health-banner" role="alert" id="api-health-banner">
+              <div className="api-health-banner-left">
+                <svg
+                  className="api-health-banner-icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <div className="api-health-banner-text">
+                  <strong>API Connection Warning:</strong> {apiError}
+                </div>
+              </div>
+              <div className="api-health-banner-right">
+                <button
+                  type="button"
+                  className="api-health-retry-btn"
+                  onClick={checkApiHealth}
+                  disabled={isCheckingApi}
+                  id="api-health-retry-btn"
+                >
+                  <svg
+                    className={isCheckingApi ? "spin" : ""}
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                  </svg>
+                  <span>{isCheckingApi ? "Checking…" : "Retry"}</span>
+                </button>
+                <button
+                  type="button"
+                  className="api-health-dismiss-btn"
+                  onClick={() => setIsDismissed(true)}
+                  title="Dismiss warning"
+                  aria-label="Dismiss warning"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
           <main className="b2b-content-canvas">
             <div className="content-inner-container">
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <div className="page-wrapper">
-                      <Dashboard />
-                    </div>
-                  }
-                />
-                <Route
-                  path="/transactions"
-                  element={
-                    <div className="page-wrapper">
-                      <Transactions />
-                    </div>
-                  }
-                />
-              </Routes>
+              <ErrorBoundary>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <div className="page-wrapper">
+                        <Dashboard />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/transactions"
+                    element={
+                      <div className="page-wrapper">
+                        <Transactions />
+                      </div>
+                    }
+                  />
+                </Routes>
+              </ErrorBoundary>
             </div>
           </main>
         </div>
@@ -148,3 +258,4 @@ export default function App() {
     </Router>
   );
 }
+
