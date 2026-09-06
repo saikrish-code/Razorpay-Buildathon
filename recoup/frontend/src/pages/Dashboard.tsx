@@ -171,7 +171,9 @@ export default function Dashboard() {
             {report ? formatINR(report.total_recovered_amount) : "—"}
           </div>
           <div className="metric-trend-row">
-            <span className="trend-teal">▲ +{report?.amount_recovery_rate.toFixed(1) ?? "49.1"}% recovery rate</span>
+            <span className="trend-teal">
+              ▲ +{report?.amount_recovery_rate != null ? report.amount_recovery_rate.toFixed(1) : "49.1"}% recovery rate
+            </span>
           </div>
         </div>
 
@@ -179,10 +181,12 @@ export default function Dashboard() {
         <div className="b2b-card metric-item-card">
           <span className="metric-header-lbl">Recovery rate</span>
           <div className="metric-number-val tabular">
-            {report ? `${report.amount_recovery_rate.toFixed(1)}%` : "—"}
+            {report?.amount_recovery_rate != null ? `${report.amount_recovery_rate.toFixed(1)}%` : "—"}
           </div>
           <div className="metric-trend-row">
-            <span className="trend-teal">▲ {report?.volume_recovery_rate.toFixed(1) ?? "48.8"}% volume conversion</span>
+            <span className="trend-teal">
+              ▲ {report?.volume_recovery_rate != null ? report.volume_recovery_rate.toFixed(1) : "48.8"}% volume conversion
+            </span>
           </div>
         </div>
 
@@ -250,7 +254,7 @@ export default function Dashboard() {
                         <span className="bar-slash">/</span>
                         <span className="tabular-amount-total tabular">{formatINR(stat.at_risk)}</span>
                         <span className={`status-pill-b2b ${isUnrecoverable ? "written-off" : rate > 40 ? "recovered" : "open"}`}>
-                          {rate.toFixed(1)}%
+                          {(Number.isFinite(rate) ? rate : 0).toFixed(1)}%
                         </span>
                       </div>
                     </div>
@@ -302,7 +306,9 @@ export default function Dashboard() {
 
                     <div className="channel-col-data">
                       <span className="channel-amount tabular">{formatINR(stat.recovered_amt)}</span>
-                      <span className="status-pill-b2b recovered tabular">{rate.toFixed(1)}%</span>
+                      <span className="status-pill-b2b recovered tabular">
+                        {(Number.isFinite(rate) ? rate : 0).toFixed(1)}%
+                      </span>
                     </div>
                   </div>
                 );
